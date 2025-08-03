@@ -131,16 +131,23 @@ export const useCalendar = () => {
   }, [updateState]);
 
   const syncWithGoogle = useCallback(async () => {
+    console.log('Starting Google Calendar sync...');
+    
     if (!googleAuthService.isSignedIn()) {
+      console.error('User not signed in to Google');
       throw new Error('User not authenticated');
     }
 
     try {
+      console.log('Syncing local events to Google Calendar...');
       // Sync local events to Google Calendar
       await googleCalendarService.syncEventsToGoogle(state.events);
       
+      console.log('Syncing Google Calendar events to local...');
       // Sync Google Calendar events to local
       const googleEvents = await googleCalendarService.syncEventsFromGoogle();
+      
+      console.log(`Received ${googleEvents.length} events from Google Calendar`);
       
       // Merge events (prioritize local events for conflicts)
       const mergedEvents = [...state.events];
@@ -151,12 +158,16 @@ export const useCalendar = () => {
         }
       });
       
+      console.log(`Total events after merge: ${mergedEvents.length}`);
+      
       setState(prev => ({ ...prev, events: mergedEvents }));
       saveEvents(mergedEvents);
       
       const syncTime = new Date();
       setLastSyncTime(syncTime);
       localStorage.setItem(SYNC_KEY, syncTime.toISOString());
+      
+      console.log('Google Calendar sync completed successfully');
     } catch (error) {
       console.error('Sync failed:', error);
       throw error;

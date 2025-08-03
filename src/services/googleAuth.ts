@@ -60,8 +60,17 @@ class GoogleAuthService {
     });
     
     await this.gapi.client.init({
+      apiKey: '', // We don't need an API key for OAuth flow
       discoveryDocs: [DISCOVERY_DOC],
     });
+    
+    // Load the calendar API
+    try {
+      await this.gapi.client.load('calendar', 'v3');
+      console.log('Google Calendar API loaded successfully');
+    } catch (error) {
+      console.warn('Could not pre-load Calendar API, will load on demand:', error);
+    }
   }
 
   private initializeGsi(): void {

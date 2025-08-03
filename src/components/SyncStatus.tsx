@@ -16,12 +16,15 @@ export const SyncStatus: React.FC<SyncStatusProps> = ({
   const handleSync = async () => {
     setIsSyncing(true);
     setSyncStatus('idle');
+    console.log('User initiated sync...');
     
     try {
       await onSync();
       setSyncStatus('success');
+      console.log('Sync completed successfully');
       setTimeout(() => setSyncStatus('idle'), 3000);
     } catch (error) {
+      console.error('Sync failed with error:', error);
       setSyncStatus('error');
       setTimeout(() => setSyncStatus('idle'), 5000);
     } finally {
