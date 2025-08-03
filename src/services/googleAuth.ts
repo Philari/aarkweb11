@@ -68,7 +68,7 @@ class GoogleAuthService {
 
   async signIn(): Promise<User> {
     if (!this.isInitialized) {
-      await this.initialize();
+      throw new Error('Google Auth service not initialized. Please wait for the app to load completely.');
     }
 
     return new Promise((resolve, reject) => {

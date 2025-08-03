@@ -12,26 +12,38 @@ export const useAuth = () => {
     error: null,
   });
 
-  // Load user from localStorage on mount
+  // Initialize Google Auth and load user from localStorage on mount
   useEffect(() => {
-    const savedUser = localStorage.getItem(STORAGE_KEY);
-    if (savedUser) {
+    const initializeAuth = async () => {
       try {
-        const user = JSON.parse(savedUser);
-        setState(prev => ({
-          ...prev,
-          user,
-          isAuthenticated: true,
-          isLoading: false,
-        }));
+        // Initialize Google Auth service first
+        await googleAuthService.initialize();
       } catch (error) {
-        console.error('Error loading saved user:', error);
-        localStorage.removeItem(STORAGE_KEY);
+        console.error('Failed to initialize Google Auth:', error);
+      }
+
+      // Then load saved user
+      const savedUser = localStorage.getItem(STORAGE_KEY);
+      if (savedUser) {
+        try {
+          const user = JSON.parse(savedUser);
+          setState(prev => ({
+            ...prev,
+            user,
+            isAuthenticated: true,
+            isLoading: false,
+          }));
+        } catch (error) {
+          console.error('Error loading saved user:', error);
+          localStorage.removeItem(STORAGE_KEY);
+          setState(prev => ({ ...prev, isLoading: false }));
+        }
+      } else {
         setState(prev => ({ ...prev, isLoading: false }));
       }
-    } else {
-      setState(prev => ({ ...prev, isLoading: false }));
-    }
+    };
+
+    initializeAuth();
   }, []);
 
   const signIn = useCallback(async () => {
