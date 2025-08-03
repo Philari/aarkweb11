@@ -1,0 +1,120 @@
+import React from 'react';
+import { CalendarEvent } from '../../types/calendar';
+import { getDaysInMonth, isSameDay, isSameMonth } from '../../utils/dateUtils';
+import { EventCard } from '../EventCard';
+
+interface MonthViewProps {
+  selectedDate: Date;
+  events: CalendarEvent[];
+  onDateSelect: (date: Date) => void;
+  onEventEdit: (event: CalendarEvent) => void;
+  onEventDelete: (eventId: string) => void;
+  onEventClick: (event: CalendarEvent) => void;
+}
+
+export const MonthView: React.FC<MonthViewProps> = ({
+  selectedDate,
+  events,
+  onDateSelect,
+  onEventEdit,
+  onEventDelete,
+  onEventClick
+}) => {
+  const monthDays = getDaysInMonth(selectedDate);
+  const startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+  const startDay = startDate.getDay();
+  
+  // Add empty cells for days before the first day of month
+  const calendarDays = [
+    ...Array(startDay).fill(null),
+    ...monthDays
+  ];
+
+  // Add remaining days to complete the grid (6 weeks)
+  while (calendarDays.length < 42) {
+    const lastDay = monthDays[monthDays.length - 1];
+    const nextDay = new Date(lastDay);
+    nextDay.setDate(nextDay.getDate() + (calendarDays.length - monthDays.length - startDay + 1));
+    calendarDays.push(nextDay);
+  }
+
+  const getEventsForDate = (date: Date) => {
+    return events.filter(event => 
+      isSameDay(event.startDate, date) || 
+      (date >= event.startDate && date <= event.endDate)
+    );
+  };
+
+  const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      {/* Week day headers */}
+      <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-200">
+        {weekDays.map(day => (
+          <div key={day} className="p-4 text-center text-sm font-medium text-gray-700">
+            {day}
+          </div>
+        ))}
+      </div>
+
+      {/* Calendar grid */}
+      <div className="grid grid-cols-7">
+        {calendarDays.map((day, index) => {
+          if (!day) {
+            return <div key={index} className="h-32 border-r border-b border-gray-100"></div>;
+          }
+
+          const dayEvents = getEventsForDate(day);
+          const isCurrentMonth = isSameMonth(day, selectedDate);
+          const isToday = isSameDay(day, new Date());
+          const isSelected = isSameDay(day, selectedDate);
+
+          return (
+            <div
+              key={day.toISOString()}
+              onClick={() => onDateSelect(day)}
+              className={`h-32 border-r border-b border-gray-100 p-2 cursor-pointer hover:bg-gray-50 transition-colors duration-200 ${
+                !isCurrentMonth ? 'bg-gray-25 text-gray-400' : ''
+              }`}
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span
+                  className={`text-sm font-medium ${
+                    isToday
+                      ? 'bg-yellow-400 text-yellow-900 h-6 w-6 rounded-full flex items-center justify-center'
+                      : isSelected
+                      ? 'text-yellow-600'
+                      : isCurrentMonth
+                      ? 'text-gray-900'
+                      : 'text-gray-400'
+                  }`}
+                >
+                  {day.getDate()}
+                </span>
+              </div>
+
+              <div className="space-y-1 overflow-hidden">
+                {dayEvents.slice(0, 2).map(event => (
+                  <EventCard
+                    key={event.id}
+                    event={event}
+                    onEdit={onEventEdit}
+                    onDelete={onEventDelete}
+                    onClick={onEventClick}
+                    compact
+                  />
+                ))}
+                {dayEvents.length > 2 && (
+                  <div className="text-xs text-gray-500 px-2">
+                    +{dayEvents.length - 2} more
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};

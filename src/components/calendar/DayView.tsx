@@ -1,0 +1,74 @@
+import React from 'react';
+import { CalendarEvent } from '../../types/calendar';
+import { isSameDay, formatDate } from '../../utils/dateUtils';
+import { EventCard } from '../EventCard';
+
+interface DayViewProps {
+  selectedDate: Date;
+  events: CalendarEvent[];
+  onEventEdit: (event: CalendarEvent) => void;
+  onEventDelete: (eventId: string) => void;
+  onEventClick: (event: CalendarEvent) => void;
+}
+
+export const DayView: React.FC<DayViewProps> = ({
+  selectedDate,
+  events,
+  onEventEdit,
+  onEventDelete,
+  onEventClick
+}) => {
+  const dayEvents = events.filter(event => 
+    isSameDay(event.startDate, selectedDate) || 
+    (selectedDate >= event.startDate && selectedDate <= event.endDate)
+  );
+
+  const isToday = isSameDay(selectedDate, new Date());
+  const dayName = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      <div className="bg-gray-50 border-b border-gray-200 p-6">
+        <div className="text-center">
+          <div className="text-sm font-medium text-gray-500 mb-1">{dayName}</div>
+          <div
+            className={`text-3xl font-bold ${
+              isToday ? 'text-yellow-600' : 'text-gray-900'
+            }`}
+          >
+            {selectedDate.getDate()}
+          </div>
+          <div className="text-sm text-gray-600 mt-1">
+            {formatDate(selectedDate)}
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6">
+        {dayEvents.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="text-gray-400 text-lg mb-2">No events scheduled</div>
+            <div className="text-gray-500 text-sm">
+              Click "Add Event" to create your first event for this day
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="text-lg font-semibold text-gray-900 mb-4">
+              {dayEvents.length} event{dayEvents.length > 1 ? 's' : ''} scheduled
+            </div>
+            {dayEvents.map(event => (
+              <EventCard
+                key={event.id}
+                event={event}
+                onEdit={onEventEdit}
+                onDelete={onEventDelete}
+                onClick={onEventClick}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
