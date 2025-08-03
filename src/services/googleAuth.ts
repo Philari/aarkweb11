@@ -15,6 +15,7 @@ class GoogleAuthService {
   private gapi: any = null;
   private tokenClient: any = null;
   private isInitialized = false;
+  private signInPromise: { resolve: (user: User) => void; reject: (error: Error) => void } | null = null;
 
   async initialize(): Promise<void> {
     if (this.isInitialized) return;
@@ -59,10 +60,46 @@ class GoogleAuthService {
   }
 
   private initializeGsi(): void {
+    const callback = async (response: any) => {
+      if (!this.signInPromise) return;
+      
+      if (response.error) {
+        this.signInPromise.reject(new Error(response.error));
+        this.signInPromise = null;
+        return;
+      }
+
+      try {
+        // Set the access token
+        this.gapi.client.setToken({ access_token: response.access_token });
+
+        // Get user info
+        const userInfoResponse = await fetch(
+          `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${response.access_token}`
+        );
+        const userInfo = await userInfoResponse.json();
+
+        const user: User = {
+          id: userInfo.id,
+          email: userInfo.email,
+          name: userInfo.name,
+          picture: userInfo.picture,
+          accessToken: response.access_token,
+          refreshToken: response.refresh_token,
+        };
+
+        this.signInPromise.resolve(user);
+        this.signInPromise = null;
+      } catch (error) {
+        this.signInPromise.reject(error as Error);
+        this.signInPromise = null;
+      }
+    };
+
     this.tokenClient = window.google.accounts.oauth2.initTokenClient({
       client_id: GOOGLE_CLIENT_ID,
       scope: SCOPES,
-      callback: '', // Will be set during sign-in
+      callback: callback,
     });
   }
 
@@ -72,38 +109,7 @@ class GoogleAuthService {
     }
 
     return new Promise((resolve, reject) => {
-      const callback = async (response: any) => {
-        if (response.error) {
-          reject(new Error(response.error));
-          return;
-        }
-
-        try {
-          // Set the access token
-          this.gapi.client.setToken({ access_token: response.access_token });
-
-          // Get user info
-          const userInfoResponse = await fetch(
-            `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${response.access_token}`
-          );
-          const userInfo = await userInfoResponse.json();
-
-          const user: User = {
-            id: userInfo.id,
-            email: userInfo.email,
-            name: userInfo.name,
-            picture: userInfo.picture,
-            accessToken: response.access_token,
-            refreshToken: response.refresh_token,
-          };
-
-          resolve(user);
-        } catch (error) {
-          reject(error);
-        }
-      };
-
-      this.tokenClient.callback = callback;
+      this.signInPromise = { resolve, reject };
       this.tokenClient.requestAccessToken({ prompt: 'consent' });
     });
   }
