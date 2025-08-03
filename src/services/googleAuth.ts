@@ -11,6 +11,11 @@ const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
 const SCOPES = 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
 
+// Current redirect URIs that need to be configured in Google Cloud Console:
+// For local development: http://localhost:5173
+// For WebContainer: https://zp1v56uxy8rdx5ypatb0ockcb9tr6a-oci3-wecpvm2u--5173--96435430.local-credentialless.webcontainer-api.io
+// For production: https://elegant-pithivier-c71ce4.netlify.app
+
 class GoogleAuthService {
   private gapi: any = null;
   private tokenClient: any = null;
