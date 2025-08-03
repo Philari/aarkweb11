@@ -61,23 +61,35 @@ class GoogleAuthService {
 
   private initializeGsi(): void {
     const callback = async (response: any) => {
+      console.log('GSI callback received:', response);
+      
       if (!this.signInPromise) return;
       
       if (response.error) {
         this.signInPromise.reject(new Error(response.error));
+        console.error('GSI callback error:', response.error);
         this.signInPromise = null;
+        console.log('No sign in promise found');
         return;
       }
 
       try {
+        console.log('Setting access token...');
         // Set the access token
         this.gapi.client.setToken({ access_token: response.access_token });
 
+        console.log('Fetching user info...');
         // Get user info
         const userInfoResponse = await fetch(
           `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${response.access_token}`
         );
+        
+        if (!userInfoResponse.ok) {
+          throw new Error(`Failed to fetch user info: ${userInfoResponse.status}`);
+        }
+        
         const userInfo = await userInfoResponse.json();
+        console.log('User info received:', userInfo);
 
         const user: User = {
           id: userInfo.id,
@@ -88,9 +100,11 @@ class GoogleAuthService {
           refreshToken: response.refresh_token,
         };
 
+        console.log('Resolving sign in promise with user:', user);
         this.signInPromise.resolve(user);
         this.signInPromise = null;
       } catch (error) {
+        console.error('Error in GSI callback:', error);
         this.signInPromise.reject(error as Error);
         this.signInPromise = null;
       }
@@ -105,11 +119,14 @@ class GoogleAuthService {
 
   async signIn(): Promise<User> {
     if (!this.isInitialized) {
+      console.error('Google Auth service not initialized');
       throw new Error('Google Auth service not initialized. Please wait for the app to load completely.');
     }
 
+    console.log('Creating sign in promise...');
     return new Promise((resolve, reject) => {
       this.signInPromise = { resolve, reject };
+      console.log('Requesting access token...');
       this.tokenClient.requestAccessToken({ prompt: 'consent' });
     });
   }

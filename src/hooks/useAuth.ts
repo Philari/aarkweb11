@@ -18,8 +18,15 @@ export const useAuth = () => {
       try {
         // Initialize Google Auth service first
         await googleAuthService.initialize();
+        console.log('Google Auth service initialized successfully');
       } catch (error) {
         console.error('Failed to initialize Google Auth:', error);
+        setState(prev => ({ 
+          ...prev, 
+          isLoading: false, 
+          error: 'Failed to initialize authentication. Please refresh the page.' 
+        }));
+        return;
       }
 
       // Then load saved user
@@ -33,6 +40,7 @@ export const useAuth = () => {
             isAuthenticated: true,
             isLoading: false,
           }));
+          console.log('Loaded saved user:', user.email);
         } catch (error) {
           console.error('Error loading saved user:', error);
           localStorage.removeItem(STORAGE_KEY);
@@ -48,9 +56,11 @@ export const useAuth = () => {
 
   const signIn = useCallback(async () => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
+    console.log('Starting sign in process...');
     
     try {
       const user = await googleAuthService.signIn();
+      console.log('Sign in successful:', user);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
       setState({
         user,
@@ -59,6 +69,7 @@ export const useAuth = () => {
         error: null,
       });
     } catch (error) {
+      console.error('Sign in error:', error);
       setState(prev => ({
         ...prev,
         isLoading: false,

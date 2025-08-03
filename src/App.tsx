@@ -9,6 +9,9 @@ import { useAuth } from './hooks/useAuth';
 
 function App() {
   const { user, isAuthenticated, isLoading, signIn, signOut } = useAuth();
+  
+  console.log('App render - isLoading:', isLoading, 'isAuthenticated:', isAuthenticated, 'user:', user?.email);
+  
   const {
     events,
     selectedDate,
