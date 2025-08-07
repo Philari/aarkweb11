@@ -25,12 +25,17 @@ export const EventForm: React.FC<EventFormProps> = ({
     description: '',
     startDate: '',
     endDate: '',
-    category: 'personal' as 'personal' | 'work',
+    category: 'iec' as 'iec' | 'internal',
     priority: 'medium' as 'low' | 'medium' | 'high',
     color: '#FCD34D',
     reminders: {
+      oneMonthBefore: false,
+      threeWeeksBefore: false,
+      twoWeeksBefore: false,
+      oneWeekBefore: false,
+      threeDaysBefore: false,
+      twoDaysBefore: false,
       oneDayBefore: true,
-      oneHourBefore: false
     }
   });
 
@@ -45,8 +50,13 @@ export const EventForm: React.FC<EventFormProps> = ({
         priority: editingEvent.priority,
         color: editingEvent.color,
         reminders: {
+          oneMonthBefore: editingEvent.reminders.some(r => r.type === '1month' && r.enabled),
+          threeWeeksBefore: editingEvent.reminders.some(r => r.type === '3weeks' && r.enabled),
+          twoWeeksBefore: editingEvent.reminders.some(r => r.type === '2weeks' && r.enabled),
+          oneWeekBefore: editingEvent.reminders.some(r => r.type === '1week' && r.enabled),
+          threeDaysBefore: editingEvent.reminders.some(r => r.type === '3days' && r.enabled),
+          twoDaysBefore: editingEvent.reminders.some(r => r.type === '2days' && r.enabled),
           oneDayBefore: editingEvent.reminders.some(r => r.type === '1day' && r.enabled),
-          oneHourBefore: editingEvent.reminders.some(r => r.type === '1hour' && r.enabled)
         }
       });
     } else {
@@ -60,12 +70,17 @@ export const EventForm: React.FC<EventFormProps> = ({
         description: '',
         startDate: formatDateTime(defaultStartDate),
         endDate: formatDateTime(defaultEndDate),
-        category: 'personal',
+        category: 'iec',
         priority: 'medium',
         color: '#FCD34D',
         reminders: {
+          oneMonthBefore: false,
+          threeWeeksBefore: false,
+          twoWeeksBefore: false,
+          oneWeekBefore: false,
+          threeDaysBefore: false,
+          twoDaysBefore: false,
           oneDayBefore: true,
-          oneHourBefore: false
         }
       });
     }
@@ -75,19 +90,59 @@ export const EventForm: React.FC<EventFormProps> = ({
     e.preventDefault();
     
     const reminders = [];
+    if (formData.reminders.oneMonthBefore) {
+      reminders.push({
+        id: crypto.randomUUID(),
+        type: '1month' as const,
+        minutesBefore: 43200, // 30 days * 24 hours * 60 minutes
+        enabled: true
+      });
+    }
+    if (formData.reminders.threeWeeksBefore) {
+      reminders.push({
+        id: crypto.randomUUID(),
+        type: '3weeks' as const,
+        minutesBefore: 30240, // 21 days * 24 hours * 60 minutes
+        enabled: true
+      });
+    }
+    if (formData.reminders.twoWeeksBefore) {
+      reminders.push({
+        id: crypto.randomUUID(),
+        type: '2weeks' as const,
+        minutesBefore: 20160, // 14 days * 24 hours * 60 minutes
+        enabled: true
+      });
+    }
+    if (formData.reminders.oneWeekBefore) {
+      reminders.push({
+        id: crypto.randomUUID(),
+        type: '1week' as const,
+        minutesBefore: 10080, // 7 days * 24 hours * 60 minutes
+        enabled: true
+      });
+    }
+    if (formData.reminders.threeDaysBefore) {
+      reminders.push({
+        id: crypto.randomUUID(),
+        type: '3days' as const,
+        minutesBefore: 4320, // 3 days * 24 hours * 60 minutes
+        enabled: true
+      });
+    }
+    if (formData.reminders.twoDaysBefore) {
+      reminders.push({
+        id: crypto.randomUUID(),
+        type: '2days' as const,
+        minutesBefore: 2880, // 2 days * 24 hours * 60 minutes
+        enabled: true
+      });
+    }
     if (formData.reminders.oneDayBefore) {
       reminders.push({
         id: crypto.randomUUID(),
         type: '1day' as const,
         minutesBefore: 1440,
-        enabled: true
-      });
-    }
-    if (formData.reminders.oneHourBefore) {
-      reminders.push({
-        id: crypto.randomUUID(),
-        type: '1hour' as const,
-        minutesBefore: 60,
         enabled: true
       });
     }
@@ -195,11 +250,11 @@ export const EventForm: React.FC<EventFormProps> = ({
               </label>
               <select
                 value={formData.category}
-                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value as 'personal' | 'work' }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value as 'iec' | 'internal' }))}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200"
               >
-                <option value="personal">Personal</option>
-                <option value="work">Work</option>
+                <option value="iec">Independent Electoral Commission</option>
+                <option value="internal">Internal Party Activity</option>
               </select>
             </div>
 
@@ -228,6 +283,78 @@ export const EventForm: React.FC<EventFormProps> = ({
               <label className="flex items-center">
                 <input
                   type="checkbox"
+                  checked={formData.reminders.oneMonthBefore}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    reminders: { ...prev.reminders, oneMonthBefore: e.target.checked }
+                  }))}
+                  className="h-4 w-4 text-yellow-500 focus:ring-yellow-500 border-gray-300 rounded"
+                />
+                <span className="ml-2 text-sm text-gray-700">1 month before</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={formData.reminders.threeWeeksBefore}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    reminders: { ...prev.reminders, threeWeeksBefore: e.target.checked }
+                  }))}
+                  className="h-4 w-4 text-yellow-500 focus:ring-yellow-500 border-gray-300 rounded"
+                />
+                <span className="ml-2 text-sm text-gray-700">3 weeks before</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={formData.reminders.twoWeeksBefore}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    reminders: { ...prev.reminders, twoWeeksBefore: e.target.checked }
+                  }))}
+                  className="h-4 w-4 text-yellow-500 focus:ring-yellow-500 border-gray-300 rounded"
+                />
+                <span className="ml-2 text-sm text-gray-700">2 weeks before</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={formData.reminders.oneWeekBefore}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    reminders: { ...prev.reminders, oneWeekBefore: e.target.checked }
+                  }))}
+                  className="h-4 w-4 text-yellow-500 focus:ring-yellow-500 border-gray-300 rounded"
+                />
+                <span className="ml-2 text-sm text-gray-700">1 week before</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={formData.reminders.threeDaysBefore}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    reminders: { ...prev.reminders, threeDaysBefore: e.target.checked }
+                  }))}
+                  className="h-4 w-4 text-yellow-500 focus:ring-yellow-500 border-gray-300 rounded"
+                />
+                <span className="ml-2 text-sm text-gray-700">3 days before</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={formData.reminders.twoDaysBefore}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    reminders: { ...prev.reminders, twoDaysBefore: e.target.checked }
+                  }))}
+                  className="h-4 w-4 text-yellow-500 focus:ring-yellow-500 border-gray-300 rounded"
+                />
+                <span className="ml-2 text-sm text-gray-700">2 days before</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
                   checked={formData.reminders.oneDayBefore}
                   onChange={(e) => setFormData(prev => ({
                     ...prev,
@@ -236,18 +363,6 @@ export const EventForm: React.FC<EventFormProps> = ({
                   className="h-4 w-4 text-yellow-500 focus:ring-yellow-500 border-gray-300 rounded"
                 />
                 <span className="ml-2 text-sm text-gray-700">1 day before</span>
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={formData.reminders.oneHourBefore}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    reminders: { ...prev.reminders, oneHourBefore: e.target.checked }
-                  }))}
-                  className="h-4 w-4 text-yellow-500 focus:ring-yellow-500 border-gray-300 rounded"
-                />
-                <span className="ml-2 text-sm text-gray-700">1 hour before</span>
               </label>
             </div>
           </div>

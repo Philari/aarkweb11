@@ -4,7 +4,7 @@ export interface CalendarEvent {
   description: string;
   startDate: Date;
   endDate: Date;
-  category: 'personal' | 'work';
+  category: 'iec' | 'internal';
   priority: 'low' | 'medium' | 'high';
   color: string;
   reminders: Reminder[];
@@ -14,7 +14,7 @@ export interface CalendarEvent {
 
 export interface Reminder {
   id: string;
-  type: '1day' | '1hour' | 'custom';
+  type: '1month' | '3weeks' | '2weeks' | '1week' | '3days' | '2days' | '1day' | 'custom';
   minutesBefore: number;
   enabled: boolean;
 }
@@ -27,7 +27,7 @@ export interface CalendarState {
   viewMode: ViewMode;
   selectedEvent: CalendarEvent | null;
   searchQuery: string;
-  filterCategory: 'all' | 'personal' | 'work';
+  filterCategory: 'all' | 'iec' | 'internal';
   isEventFormOpen: boolean;
   editingEvent: CalendarEvent | null;
 }

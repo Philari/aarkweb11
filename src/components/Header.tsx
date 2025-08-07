@@ -10,8 +10,8 @@ interface HeaderProps {
   setViewMode: (mode: ViewMode) => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
-  filterCategory: 'all' | 'personal' | 'work';
-  setFilterCategory: (category: 'all' | 'personal' | 'work') => void;
+  filterCategory: 'all' | 'iec' | 'internal';
+  setFilterCategory: (category: 'all' | 'iec' | 'internal') => void;
   onAddEvent: () => void;
   user?: User;
   onSignOut?: () => void;
@@ -81,12 +81,12 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="relative">
               <select
                 value={filterCategory}
-                onChange={(e) => setFilterCategory(e.target.value as 'all' | 'personal' | 'work')}
+                onChange={(e) => setFilterCategory(e.target.value as 'all' | 'iec' | 'internal')}
                 className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200"
               >
                 <option value="all">All Categories</option>
-                <option value="personal">Personal</option>
-                <option value="work">Work</option>
+                <option value="iec">Independent Electoral Commission</option>
+                <option value="internal">Internal Party Activity</option>
               </select>
               <Filter className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
             </div>

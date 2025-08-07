@@ -25,8 +25,8 @@ export const EventCard: React.FC<EventCardProps> = ({
   };
 
   const categoryColors = {
-    personal: 'bg-blue-100 text-blue-800',
-    work: 'bg-purple-100 text-purple-800'
+    iec: 'bg-blue-100 text-blue-800',
+    internal: 'bg-purple-100 text-purple-800'
   };
 
   const handleClick = (e: React.MouseEvent) => {

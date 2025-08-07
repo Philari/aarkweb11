@@ -6,7 +6,7 @@ import { Calendar, Filter } from 'lucide-react';
 interface EventsSidebarProps {
   events: CalendarEvent[];
   searchQuery: string;
-  filterCategory: 'all' | 'personal' | 'work';
+  filterCategory: 'all' | 'iec' | 'internal';
   onEventEdit: (event: CalendarEvent) => void;
   onEventDelete: (eventId: string) => void;
   onEventClick: (event: CalendarEvent) => void;
