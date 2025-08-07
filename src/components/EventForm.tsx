@@ -66,7 +66,7 @@ export const EventForm: React.FC<EventFormProps> = ({
       defaultEndDate.setHours(10, 0, 0, 0);
 
       setFormData({
-        title: '',
+        title: 'Electoral Activity',
         description: '',
         startDate: formatDateTime(defaultStartDate),
         endDate: formatDateTime(defaultEndDate),
@@ -148,7 +148,7 @@ export const EventForm: React.FC<EventFormProps> = ({
     }
 
     const eventData = {
-      title: formData.title,
+      title: formData.description || 'Electoral Activity',
       description: formData.description,
       startDate: new Date(formData.startDate),
       endDate: new Date(formData.endDate),
@@ -187,28 +187,15 @@ export const EventForm: React.FC<EventFormProps> = ({
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Event Title
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.title}
-              onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200"
-              placeholder="Enter event title..."
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Description
+              Activity Description
             </label>
             <textarea
+              required
               value={formData.description}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
               rows={3}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200 resize-none"
-              placeholder="Enter event description..."
+              placeholder="Enter activity description..."
             />
           </div>
 
