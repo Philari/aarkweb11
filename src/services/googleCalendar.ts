@@ -209,7 +209,6 @@ class GoogleCalendarService {
           minutes: reminder.minutesBefore,
         })),
       },
-      colorId: event.category === 'work' ? '11' : '1', // Yellow for work, blue for personal
       colorId: event.category === 'internal' ? '11' : '1', // Yellow for internal, blue for IEC
     };
   }
@@ -231,7 +230,7 @@ class GoogleCalendarService {
       description: googleEvent.description || '',
       startDate,
       endDate,
-      category: 'iec', // Default to IEC, could be enhanced with custom properties
+      category: 'iec' as const, // Default to IEC, could be enhanced with custom properties
       priority: 'medium',
       color: '#FCD34D',
       reminders: [
