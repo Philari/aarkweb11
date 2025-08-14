@@ -29,372 +29,288 @@ export const generateElectoralEvents = (): CalendarEvent[] => {
       ]
     },
     {
-      title: 'Receipt and handling of complaints arising from the demarcation of electoral areas and reorganisation of polling stations',
+      title: 'Handling complaints from demarcation process',
       description: 'Receipt and handling of complaints arising from the demarcation of electoral areas and reorganisation of polling stations',
       startDate: new Date('2024-09-27T08:00:00'),
       endDate: new Date('2024-10-26T17:00:00'),
       category: 'iec',
       priority: 'medium',
-      color: '#FCD34D',
+      color: '#EF4444',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
       ]
     },
     {
-      title: 'General Update of the Register in each parish/ward, in line with Article 61 (1)(e) of the Constitution',
+      title: 'General Update of Voters Register',
       description: 'General Update of the Register in each parish/ward, in line with Article 61 (1)(e) of the Constitution',
       startDate: new Date('2025-01-03T08:00:00'),
       endDate: new Date('2025-01-25T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#10B981',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true },
         { id: crypto.randomUUID(), type: '1week', minutesBefore: 10080, enabled: true }
       ]
     },
     {
-      title: 'Compilation of Youth, PWDs, Older Persons, Workers, UPDF, and Professional Bodies Voters Registers, in line with The Electoral Commission Act, Sec. 18(1)',
-      description: 'Compilation of Youth, PWDs, Older Persons, Workers, UPDF, and Professional Bodies Voters Registers, in line with The Electoral Commission Act, Sec. 18(1)',
-      startDate: new Date('2025-01-03T08:00:00'),
-      endDate: new Date('2025-01-25T17:00:00'),
-      category: 'iec',
-      priority: 'high',
-      color: '#FCD34D',
-      reminders: [
-        { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
-      ]
-    },
-    {
-      title: 'Cut-off of Update of the National Voters\' Register and Compilation of Youth, PWDs, Older Persons & Workers Registers, in line with EC Act Sec. 19(7) & 19(8)(a)',
-      description: 'Cut-off of Update of the National Voters\' Register and Compilation of Youth, PWDs, Older Persons & Workers Registers, in line with EC Act Sec. 19(7) & 19(8)(a)',
+      title: 'Cut-off of Voters Register Update',
+      description: 'Cut-off of Update of the National Voters Register and Compilation of Special Interest Groups Registers',
       startDate: new Date('2025-01-25T08:00:00'),
       endDate: new Date('2025-01-25T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#DC2626',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true },
         { id: crypto.randomUUID(), type: '1week', minutesBefore: 10080, enabled: true }
       ]
     },
     {
-      title: 'Display of the National Voters\' Register at each Polling Station in line with EC Act, Sec 24(1) & Sec 25(1)',
-      description: 'Display of the National Voters\' Register at each Polling Station in line with EC Act, Sec 24(1) & Sec 25(1)',
+      title: 'Display of National Voters Register',
+      description: 'Display of the National Voters Register at each Polling Station',
       startDate: new Date('2025-04-18T08:00:00'),
       endDate: new Date('2025-05-08T17:00:00'),
       category: 'iec',
       priority: 'medium',
-      color: '#FCD34D',
+      color: '#8B5CF6',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
       ]
     },
     {
-      title: 'Display of Special Interest Groups (SIGs) Committees Voters Register in each Village/KCCA/UPDF/EC/Workers Offices',
-      description: 'Display of Special Interest Groups (SIGs) Committees Voters Register in each Village/KCCA/UPDF/EC/Workers Offices',
-      startDate: new Date('2025-04-18T08:00:00'),
-      endDate: new Date('2025-04-28T17:00:00'),
-      category: 'iec',
-      priority: 'medium',
-      color: '#FCD34D',
-      reminders: [
-        { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
-      ]
-    },
-    {
-      title: 'Display of Tribunal recommendations at each Parish/Ward, in line with the EC Act Sec 25(1a)',
-      description: 'Display of Tribunal recommendations at each Parish/Ward, in line with the EC Act Sec 25(1a)',
-      startDate: new Date('2025-05-09T08:00:00'),
-      endDate: new Date('2025-05-19T17:00:00'),
-      category: 'iec',
-      priority: 'medium',
-      color: '#FCD34D',
-      reminders: [
-        { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
-      ]
-    },
-    {
-      title: 'Deadline for resignation by public servants wishing to contest in Special Interest Groups (SIGs) Committee Elections',
-      description: 'Deadline for resignation by public servants wishing to contest in Special Interest Groups (SIGs) Committee Elections',
+      title: 'Public Servants Resignation Deadline (SIGs)',
+      description: 'Deadline for resignation by public servants wishing to contest in Special Interest Groups Committee Elections',
       startDate: new Date('2025-04-28T08:00:00'),
       endDate: new Date('2025-04-28T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#F59E0B',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true },
         { id: crypto.randomUUID(), type: '1week', minutesBefore: 10080, enabled: true }
       ]
     },
     {
-      title: 'Nomination of Village SIGs Committees Candidates: Older Persons, Persons with Disabilities and Youth',
-      description: 'Nomination of Village SIGs Committees Candidates: Older Persons, Persons with Disabilities and Youth',
+      title: 'Village SIGs Nominations',
+      description: 'Nomination of Village Special Interest Groups Committees Candidates',
       startDate: new Date('2025-06-02T08:00:00'),
       endDate: new Date('2025-06-10T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#06B6D4',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
       ]
     },
     {
-      title: 'Nomination of Parish/Ward SIGs Committee Candidates, Older Persons (OP), Persons with Disabilities (PWDs) and Youth',
-      description: 'Nomination of Parish/Ward SIGs Committee Candidates, Older Persons (OP), Persons with Disabilities (PWDs) and Youth',
+      title: 'Parish/Ward SIGs Nominations',
+      description: 'Nomination of Parish/Ward Special Interest Groups Committee Candidates',
       startDate: new Date('2025-06-26T08:00:00'),
       endDate: new Date('2025-06-27T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#84CC16',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
       ]
     },
     {
-      title: 'Deadline for establishing academic papers with the EC by aspiring candidates for Local Governments Elections',
+      title: 'Academic Papers Deadline (Local Government)',
       description: 'Deadline for establishing academic papers with the EC by aspiring candidates for Local Governments Elections',
       startDate: new Date('2025-07-03T08:00:00'),
       endDate: new Date('2025-07-03T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#F97316',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true },
         { id: crypto.randomUUID(), type: '1week', minutesBefore: 10080, enabled: true }
       ]
     },
     {
-      title: 'Deadline for establishing academic papers with the EC by aspiring candidates for Parliamentary Elections',
+      title: 'Academic Papers Deadline (Parliamentary)',
       description: 'Deadline for establishing academic papers with the EC by aspiring candidates for Parliamentary Elections',
       startDate: new Date('2025-07-16T08:00:00'),
       endDate: new Date('2025-07-16T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#EC4899',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true },
         { id: crypto.randomUUID(), type: '1week', minutesBefore: 10080, enabled: true }
       ]
     },
     {
-      title: 'Deadline for establishing academic papers with the EC by aspiring candidates for Presidential Elections',
+      title: 'Academic Papers Deadline (Presidential)',
       description: 'Deadline for establishing academic papers with the EC by aspiring candidates for Presidential Elections',
       startDate: new Date('2025-08-01T08:00:00'),
       endDate: new Date('2025-08-01T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#7C3AED',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true },
         { id: crypto.randomUUID(), type: '1week', minutesBefore: 10080, enabled: true }
       ]
     },
     {
-      title: 'Deadline for resignation by public servants intending to contest Parliamentary Elections',
+      title: 'Public Servants Resignation Deadline (Parliamentary)',
       description: 'Deadline for resignation by public servants intending to contest Parliamentary Elections',
       startDate: new Date('2025-06-13T08:00:00'),
       endDate: new Date('2025-06-13T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#EF4444',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true },
         { id: crypto.randomUUID(), type: '1week', minutesBefore: 10080, enabled: true }
       ]
     },
     {
-      title: 'Deadline for resignation by public servants intending to contest Local Governments Elections',
+      title: 'Public Servants Resignation Deadline (Local Government)',
       description: 'Deadline for resignation by public servants intending to contest Local Governments Elections',
       startDate: new Date('2025-08-02T08:00:00'),
       endDate: new Date('2025-08-02T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#10B981',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true },
         { id: crypto.randomUUID(), type: '1week', minutesBefore: 10080, enabled: true }
       ]
     },
     {
-      title: 'Deadline for resignation by public servants intending to contest Presidential Elections',
+      title: 'Public Servants Resignation Deadline (Presidential)',
       description: 'Deadline for resignation by public servants intending to contest Presidential Elections',
       startDate: new Date('2025-10-01T08:00:00'),
       endDate: new Date('2025-10-01T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#DC2626',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true },
         { id: crypto.randomUUID(), type: '1week', minutesBefore: 10080, enabled: true }
       ]
     },
     {
-      title: 'Nomination of Sub-County, Town & Municipal Division SIGs Committees Candidates, Older Persons, PwDs, Youth',
-      description: 'Nomination of Sub-County, Town & Municipal Division SIGs Committees Candidates, Older Persons, PwDs, Youth',
+      title: 'Sub-County SIGs Nominations',
+      description: 'Nomination of Sub-County, Town & Municipal Division Special Interest Groups Committees Candidates',
       startDate: new Date('2025-07-14T08:00:00'),
       endDate: new Date('2025-07-15T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#06B6D4',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
       ]
     },
     {
-      title: 'Holding Sub-County Conferences to elect Non-unionised Workers Delegates to the District/City',
-      description: 'Holding Sub-County Conferences to elect Non-unionised Workers Delegates to the District/City',
-      startDate: new Date('2025-07-11T08:00:00'),
-      endDate: new Date('2025-07-11T17:00:00'),
-      category: 'iec',
-      priority: 'medium',
-      color: '#FCD34D',
-      reminders: [
-        { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
-      ]
-    },
-    {
-      title: 'Nomination of Municipality/City Division SIG Committees Candidates, Older Persons, Persons with Disabilities, Youth',
-      description: 'Nomination of Municipality/City Division SIG Committees Candidates, Older Persons, Persons with Disabilities, Youth',
+      title: 'Municipality/City Division SIGs Nominations',
+      description: 'Nomination of Municipality/City Division Special Interest Groups Committees Candidates',
       startDate: new Date('2025-07-24T08:00:00'),
       endDate: new Date('2025-07-25T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#F59E0B',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
       ]
     },
     {
-      title: 'Nomination of District and City SIGs Committee Candidates, Older Persons, Persons with Disabilities, Youth',
-      description: 'Nomination of District and City SIGs Committee Candidates, Older Persons, Persons with Disabilities, Youth',
+      title: 'District and City SIGs Nominations',
+      description: 'Nomination of District and City Special Interest Groups Committee Candidates',
       startDate: new Date('2025-08-11T08:00:00'),
       endDate: new Date('2025-08-12T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#8B5CF6',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
       ]
     },
     {
-      title: 'Holding of District Conferences to elect Non-unionised Workers Delegates to the Regions',
-      description: 'Holding of District Conferences to elect Non-unionised Workers Delegates to the Regions',
-      startDate: new Date('2025-08-07T08:00:00'),
-      endDate: new Date('2025-08-07T17:00:00'),
-      category: 'iec',
-      priority: 'medium',
-      color: '#FCD34D',
-      reminders: [
-        { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
-      ]
-    },
-    {
-      title: 'Nomination, Campaigns, and Polling for the National Youth Council Committee',
-      description: 'Nomination, Campaigns, and Polling for the National Youth Council Committee',
-      startDate: new Date('2025-08-27T08:00:00'),
-      endDate: new Date('2025-08-29T17:00:00'),
-      category: 'iec',
-      priority: 'high',
-      color: '#FCD34D',
-      reminders: [
-        { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
-      ]
-    },
-    {
-      title: 'Nomination of Candidates for Local Governments, including SIGs, in line with Section 132(1) of the Local Governments Act, Cap 138',
-      description: 'Nomination of Candidates for Local Governments, including SIGs, in line with Section 132(1) of the Local Governments Act, Cap 138',
+      title: 'Local Government Candidates Nominations',
+      description: 'Nomination of Candidates for Local Governments, including Special Interest Groups',
       startDate: new Date('2025-09-03T08:00:00'),
       endDate: new Date('2025-09-12T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#10B981',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
       ]
     },
     {
-      title: 'Nomination of Candidates for Parliamentary Elections in line with Section 26 of the Parliamentary Elections Act, Cap 177',
-      description: 'Nomination of Candidates for Parliamentary Elections in line with Section 26 of the Parliamentary Elections Act, Cap 177',
+      title: 'Parliamentary Candidates Nominations',
+      description: 'Nomination of Candidates for Parliamentary Elections',
       startDate: new Date('2025-09-16T08:00:00'),
       endDate: new Date('2025-09-17T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#3B82F6',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true },
         { id: crypto.randomUUID(), type: '1week', minutesBefore: 10080, enabled: true }
       ]
     },
     {
-      title: 'Nomination of Candidates for Presidential Elections',
+      title: 'Presidential Candidates Nominations',
       description: 'Nomination of Candidates for Presidential Elections',
       startDate: new Date('2025-09-23T08:00:00'),
       endDate: new Date('2025-09-24T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#DC2626',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true },
         { id: crypto.randomUUID(), type: '1week', minutesBefore: 10080, enabled: true }
       ]
     },
     {
-      title: 'Nomination of candidates for SIGs Representatives to Local Governments',
-      description: 'Nomination of candidates for SIGs Representatives to Local Governments',
-      startDate: new Date('2025-12-08T08:00:00'),
-      endDate: new Date('2025-12-12T17:00:00'),
-      category: 'iec',
-      priority: 'high',
-      color: '#FCD34D',
-      reminders: [
-        { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
-      ]
-    },
-    {
-      title: 'Conduct of candidates\' campaigns (Presidential) in line with Section 22(1) of the Presidential Elections Act',
-      description: 'Conduct of candidates\' campaigns (Presidential) in line with Section 22(1) of the Presidential Elections Act',
+      title: 'Presidential Campaign Period',
+      description: 'Conduct of Presidential candidates campaigns',
       startDate: new Date('2025-10-04T08:00:00'),
       endDate: new Date('2026-01-12T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#DC2626',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
       ]
     },
     {
-      title: 'Conduct of candidates\' campaigns (Parliamentary) in line with Section 38 of the Parliamentary Elections Act, Cap 177',
-      description: 'Conduct of candidates\' campaigns (Parliamentary) in line with Section 38 of the Parliamentary Elections Act, Cap 177',
+      title: 'Parliamentary Campaign Period',
+      description: 'Conduct of Parliamentary candidates campaigns',
       startDate: new Date('2025-09-23T08:00:00'),
       endDate: new Date('2026-01-12T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#3B82F6',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
       ]
     },
     {
-      title: 'Conduct of candidates\' campaigns (Local Governments, including SIGs)',
-      description: 'Conduct of candidates\' campaigns (Local Governments, including SIGs)',
+      title: 'Local Government Campaign Period',
+      description: 'Conduct of Local Government candidates campaigns',
       startDate: new Date('2025-09-13T08:00:00'),
       endDate: new Date('2026-01-12T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#10B981',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true }
       ]
     },
     {
-      title: 'Polling Period for Presidential, Parliamentary, and Local Government Councils (City/District, Municipality/City Division, and Sub County, Town, Municipal Division), including SIGs Representatives, in line with Article 61(2) of the Constitution',
-      description: 'Polling Period for Presidential, Parliamentary, and Local Government Councils (City/District, Municipality/City Division, and Sub County, Town, Municipal Division), including SIGs Representatives, in line with Article 61(2) of the Constitution',
+      title: 'General Elections Polling Period',
+      description: 'Polling Period for Presidential, Parliamentary, and Local Government Elections',
       startDate: new Date('2026-01-12T08:00:00'),
       endDate: new Date('2026-02-09T17:00:00'),
       category: 'iec',
       priority: 'high',
-      color: '#FCD34D',
+      color: '#7C3AED',
       reminders: [
         { id: crypto.randomUUID(), type: '1day', minutesBefore: 1440, enabled: true },
         { id: crypto.randomUUID(), type: '1week', minutesBefore: 10080, enabled: true }
