@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Mail, Shield, FolderSync as Sync, Smartphone, Globe } from 'lucide-react';
+import { Calendar, Mail, FolderSync as Sync } from 'lucide-react';
 
 interface LoginScreenProps {
   onSignIn: () => void;
@@ -32,19 +32,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
             <p className="text-xs text-gray-600">Sync with Google Calendar</p>
           </div>
           <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-            <Smartphone className="h-6 w-6 text-blue-600 mb-2" />
-            <h3 className="font-semibold text-gray-900 text-sm">Cross-Device</h3>
-            <p className="text-xs text-gray-600">Access anywhere</p>
-          </div>
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-            <Shield className="h-6 w-6 text-green-600 mb-2" />
-            <h3 className="font-semibold text-gray-900 text-sm">Secure</h3>
-            <p className="text-xs text-gray-600">Encrypted data</p>
-          </div>
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-            <Globe className="h-6 w-6 text-purple-600 mb-2" />
-            <h3 className="font-semibold text-gray-900 text-sm">Cloud Backup</h3>
-            <p className="text-xs text-gray-600">Never lose data</p>
+            <Calendar className="h-6 w-6 text-blue-600 mb-2" />
+            <h3 className="font-semibold text-gray-900 text-sm">Event Management</h3>
+            <p className="text-xs text-gray-600">Organize your schedule</p>
           </div>
         </div>
 
