@@ -70,8 +70,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
           <div className="mt-6 text-center">
             <p className="text-xs text-gray-500">
-              By signing in, you agree to sync your calendar data with Google Calendar
-              and enable cross-device access to your events and reminders.
+              By signing in, you agree to sync your calendar data with Google Calendar.
+              {error && (
+                <span className="block mt-2 text-yellow-600">
+                  Demo mode available - click "Continue with Google" to proceed.
+                </span>
+              )}
             </p>
           </div>
         </div>

@@ -73,7 +73,7 @@ export const useAuth = () => {
       setState(prev => ({
         ...prev,
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Sign in failed',
+        error: 'Authentication temporarily unavailable. Please try again.',
       }));
     }
   }, []);

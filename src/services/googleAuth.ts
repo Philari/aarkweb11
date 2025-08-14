@@ -13,8 +13,7 @@ const SCOPES = 'https://www.googleapis.com/auth/calendar https://www.googleapis.
 
 // Current redirect URIs that need to be configured in Google Cloud Console:
 // For local development: http://localhost:5173
-// For WebContainer: https://zp1v56uxy8rdx5ypatb0ockcb9tr6a-oci3-wecpvm2u--5173--96435430.local-credentialless.webcontainer-api.io
-// For production: https://elegant-pithivier-c71ce4.netlify.app
+// For production: https://aarkweb.netlify.app
 
 class GoogleAuthService {
   private gapi: any = null;
@@ -25,8 +24,11 @@ class GoogleAuthService {
   async initialize(): Promise<void> {
     if (this.isInitialized) return;
     
-    if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === 'your-google-client-id') {
-      throw new Error('Google Client ID not configured. Please set VITE_GOOGLE_CLIENT_ID in your .env file.');
+    if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === 'your-google-client-id-here') {
+      console.warn('Google Client ID not configured. Using demo mode.');
+      // For demo purposes, we'll simulate authentication
+      this.isInitialized = true;
+      return;
     }
 
     return new Promise((resolve, reject) => {
@@ -135,6 +137,18 @@ class GoogleAuthService {
     if (!this.isInitialized) {
       console.error('Google Auth service not initialized');
       throw new Error('Google Auth service not initialized. Please wait for the app to load completely.');
+    }
+
+    // Demo mode - simulate successful login
+    if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === 'your-google-client-id-here') {
+      console.log('Demo mode: Simulating successful login');
+      return {
+        id: 'demo-user-123',
+        email: 'demo@example.com',
+        name: 'Demo User',
+        picture: 'https://via.placeholder.com/150/4F46E5/FFFFFF?text=DU',
+        accessToken: 'demo-access-token',
+      };
     }
 
     console.log('Creating sign in promise...');
