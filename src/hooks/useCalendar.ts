@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { CalendarEvent, CalendarState, ViewMode } from '../types/calendar';
-import { generateElectoralEvents } from '../utils/electoralData';
 import { googleCalendarService } from '../services/googleCalendar';
 import { googleAuthService } from '../services/googleAuth';
 
@@ -23,6 +22,10 @@ export const useCalendar = () => {
 
   // Load events from localStorage on mount
   useEffect(() => {
+    // Clear any existing events and start fresh
+    localStorage.removeItem(STORAGE_KEY);
+    setState(prev => ({ ...prev, events: [] }));
+    
     const savedEvents = localStorage.getItem(STORAGE_KEY);
     if (savedEvents) {
       const events = JSON.parse(savedEvents).map((event: any) => ({
@@ -34,7 +37,7 @@ export const useCalendar = () => {
       }));
       setState(prev => ({ ...prev, events }));
     } else {
-      // Initialize with empty events array
+      // Always start with completely empty events array
       setState(prev => ({ ...prev, events: [] }));
     }
     
