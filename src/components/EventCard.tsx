@@ -56,7 +56,7 @@ export const EventCard: React.FC<EventCardProps> = ({
       >
         <div className="flex items-center justify-between">
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">{event.title}</p>
+            <p className="text-sm font-medium text-gray-900 truncate">{event.description}</p>
             <p className="text-xs text-gray-600">
               {formatTime(event.startDate)} - {formatTime(event.endDate)}
             </p>
@@ -88,7 +88,8 @@ export const EventCard: React.FC<EventCardProps> = ({
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 text-lg mb-2">{event.description}</h3>
+          <h3 className="font-semibold text-gray-900 text-lg mb-2">{event.title}</h3>
+          <p className="text-gray-600 text-sm leading-relaxed">{event.description}</p>
         </div>
         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex space-x-2">
           <button

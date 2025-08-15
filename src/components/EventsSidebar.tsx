@@ -22,7 +22,7 @@ export const EventsSidebar: React.FC<EventsSidebarProps> = ({
 }) => {
   const filteredEvents = events.filter(event => {
     const matchesSearch = searchQuery === '' || 
-      event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.description.toLowerCase().includes(searchQuery.toLowerCase());
     
     const matchesCategory = filterCategory === 'all' || event.category === filterCategory;

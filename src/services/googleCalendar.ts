@@ -226,7 +226,7 @@ class GoogleCalendarService {
 
     return {
       id: googleEvent.id,
-      title: googleEvent.summary || 'Untitled Event',
+      title: 'Electoral Activity',
       description: googleEvent.description || '',
       startDate,
       endDate,
