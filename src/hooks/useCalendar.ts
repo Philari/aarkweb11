@@ -204,6 +204,18 @@ export const useCalendar = () => {
       throw error;
     }
   }, [state.events, saveEvents]);
+
+  const autoSyncOnSignIn = useCallback(async () => {
+    console.log('Auto-sync triggered after sign in...');
+    try {
+      await syncWithGoogle();
+      console.log('Auto-sync completed successfully');
+    } catch (error) {
+      console.warn('Auto-sync failed, but continuing with app:', error);
+      // Don't throw error to prevent blocking app usage
+    }
+  }, [syncWithGoogle]);
+
   return {
     ...state,
     lastSyncTime,
@@ -217,6 +229,7 @@ export const useCalendar = () => {
     openEventForm,
     closeEventForm,
     selectEvent,
-    syncWithGoogle
+    syncWithGoogle,
+    autoSyncOnSignIn
   };
 };

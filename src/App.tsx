@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { LoginScreen } from './components/LoginScreen';
 import { Header } from './components/Header';
 import { CalendarView } from './components/calendar/CalendarView';
@@ -31,8 +32,26 @@ function App() {
     openEventForm,
     closeEventForm,
     selectEvent,
-    syncWithGoogle
+    syncWithGoogle,
+    autoSyncOnSignIn
   } = useCalendar();
+
+  // Auto-sync when user signs in
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      console.log('User authenticated, triggering auto-sync...');
+      autoSyncOnSignIn();
+    }
+  }, [isAuthenticated, user, autoSyncOnSignIn]);
+
+  const handleSignIn = async () => {
+    try {
+      await signIn();
+      console.log('Sign in completed, auto-sync will be triggered by useEffect');
+    } catch (error) {
+      console.error('Sign in failed:', error);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -43,7 +62,7 @@ function App() {
   }
 
   if (!isAuthenticated) {
-    return <LoginScreen onSignIn={signIn} isLoading={isLoading} error={null} />;
+    return <LoginScreen onSignIn={handleSignIn} isLoading={isLoading} error={null} />;
   }
 
   return (

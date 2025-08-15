@@ -68,6 +68,9 @@ export const useAuth = () => {
         isLoading: false,
         error: null,
       });
+      
+      // Return user for auto-sync trigger
+      return user;
     } catch (error) {
       console.error('Sign in error:', error);
       setState(prev => ({
@@ -75,6 +78,7 @@ export const useAuth = () => {
         isLoading: false,
         error: 'Authentication temporarily unavailable. Please try again.',
       }));
+      throw error;
     }
   }, []);
 
