@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#FCD34D" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>Digital Calendar - Electoral Activities</title>
     <style>
       /* Loading fallback styles */
@@ -14,6 +17,7 @@
         min-height: 100vh;
         font-family: Arial, sans-serif;
         background: #f9fafb;
+        padding: 1rem;
       }
       .loading-spinner {
         width: 40px;
@@ -26,6 +30,32 @@
       @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
+      }
+      
+      /* Prevent zoom on input focus on iOS */
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      input[type="number"],
+      input[type="tel"],
+      input[type="url"],
+      input[type="search"],
+      input[type="datetime-local"],
+      textarea,
+      select {
+        font-size: 16px;
+      }
+      
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      /* Touch-friendly buttons */
+      button, 
+      [role="button"] {
+        min-height: 44px;
+        min-width: 44px;
       }
     </style>
   </head>

@@ -75,7 +75,7 @@ function App() {
           />
         </div>
 
-        <div className="hidden lg:block">
+        <div className="hidden xl:block">
           <EventsSidebar
             events={events}
             searchQuery={searchQuery}

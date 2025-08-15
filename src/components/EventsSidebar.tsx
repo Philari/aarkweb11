@@ -53,42 +53,42 @@ export const EventsSidebar: React.FC<EventsSidebarProps> = ({
 
   return (
     <>
-      <div className="w-80 bg-gray-50 border-l border-gray-200 h-full overflow-y-auto">
-      <div className="p-6 border-b border-gray-200 bg-white">
+      <div className="w-72 sm:w-80 bg-gray-50 border-l border-gray-200 h-full overflow-y-auto">
+      <div className="p-4 sm:p-6 border-b border-gray-200 bg-white">
         <div className="flex items-center space-x-2 mb-4">
           <Calendar className="h-5 w-5 text-yellow-600" />
-          <h2 className="font-semibold text-gray-900">Upcoming Events</h2>
+          <h2 className="font-semibold text-gray-900 text-sm sm:text-base">Upcoming Events</h2>
         </div>
         
         {searchQuery && (
-          <div className="text-sm text-gray-600 mb-2">
+          <div className="text-xs sm:text-sm text-gray-600 mb-2">
             Search: "{searchQuery}"
           </div>
         )}
         
         {filterCategory !== 'all' && (
-          <div className="text-sm text-gray-600 mb-2">
+          <div className="text-xs sm:text-sm text-gray-600 mb-2">
             Filter: {filterCategory}
           </div>
         )}
         
-        <div className="text-sm text-gray-500">
+        <div className="text-xs sm:text-sm text-gray-500">
           {filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''} found
         </div>
       </div>
 
-      <div className="p-6">
+      <div className="p-3 sm:p-6">
         {upcomingEvents.length === 0 ? (
-          <div className="text-center py-8">
-            <Filter className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 text-sm">
+          <div className="text-center py-6 sm:py-8">
+            <Filter className="h-10 w-10 sm:h-12 sm:w-12 text-gray-300 mx-auto mb-3 sm:mb-4" />
+            <p className="text-gray-500 text-xs sm:text-sm">
               {searchQuery || filterCategory !== 'all'
                 ? 'No events match your search criteria'
                 : 'No upcoming events'}
             </p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-2 sm:space-y-4">
             {upcomingEvents.map(event => (
               <EventCard
                 key={event.id}

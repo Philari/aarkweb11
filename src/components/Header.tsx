@@ -1,178 +1,85 @@
-import React from 'react';
-import { Calendar, Search, Plus, Filter } from 'lucide-react';
-import { ViewMode } from '../types/calendar';
-import { UserProfile } from './UserProfile';
-import { SyncStatus } from './SyncStatus';
-import { User } from '../types/auth';
+import React, { useState } from 'react';
+import { User, LogOut, Settings, Calendar } from 'lucide-react';
+import { User as UserType } from '../types/auth';
 
-interface HeaderProps {
-  viewMode: ViewMode;
-  setViewMode: (mode: ViewMode) => void;
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  filterCategory: 'all' | 'iec' | 'internal';
-  setFilterCategory: (category: 'all' | 'iec' | 'internal') => void;
-  onAddEvent: () => void;
-  user?: User;
-  onSignOut?: () => void;
-  onSync?: () => Promise<void>;
-  lastSyncTime?: Date;
+interface UserProfileProps {
+  user: UserType;
+  onSignOut: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({
-  viewMode,
-  setViewMode,
-  searchQuery,
-  setSearchQuery,
-  filterCategory,
-  setFilterCategory,
-  onAddEvent,
+export const UserProfile: React.FC<UserProfileProps> = ({
   user,
-  onSignOut,
-  onSync,
-  lastSyncTime
+  onSignOut
 }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
-    <header className="bg-white shadow-lg border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo and Title */}
-          <div className="flex items-center space-x-3">
-            <div className="bg-yellow-400 p-2 rounded-lg">
-              <Calendar className="h-6 w-6 text-yellow-900" />
-            </div>
-            <h1 className="text-xl font-bold text-gray-900">Digital Calendar</h1>
-          </div>
-
-          {/* View Mode Toggles */}
-          <div className="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
-            {(['day', 'week', 'month'] as ViewMode[]).map((mode) => (
-              <button
-                key={mode}
-                onClick={() => setViewMode(mode)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  viewMode === mode
-                    ? 'bg-yellow-400 text-yellow-900 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
-                }`}
-              >
-                {mode.charAt(0).toUpperCase() + mode.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          {/* Search and Actions - Desktop */}
-          <div className="hidden md:flex items-center space-x-4">
-            {user && onSync && (
-              <SyncStatus onSync={onSync} lastSyncTime={lastSyncTime} />
-            )}
-            
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search events..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200 w-64"
-              />
-            </div>
-
-            <div className="relative">
-              <select
-                value={filterCategory}
-                onChange={(e) => setFilterCategory(e.target.value as 'all' | 'iec' | 'internal')}
-                className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200"
-              >
-                <option value="all">All Categories</option>
-                <option value="iec">Independent Electoral Commission</option>
-                <option value="internal">Internal Party Activity</option>
-              </select>
-              <Filter className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
-            </div>
-
-            <button
-              onClick={onAddEvent}
-              className="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 shadow-sm hover:shadow-md"
-            >
-              <Plus className="h-4 w-4" />
-              <span className="hidden sm:inline">Add Event</span>
-            </button>
-            
-            {user && onSignOut && (
-              <UserProfile user={user} onSignOut={onSignOut} />
-            )}
-          </div>
+    <div className="relative">
+      <button
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+      >
+        <img
+          src={user.picture}
+          alt={user.name}
+          className="h-8 w-8 rounded-full border-2 border-yellow-400"
+        />
+        <div className="hidden md:block text-left">
+          <p className="text-sm font-medium text-gray-900">{user.name}</p>
+          <p className="text-xs text-gray-600">{user.email}</p>
         </div>
+      </button>
 
-        {/* Mobile Layout */}
-        <div className="md:hidden">
-          {/* Mobile Search and Actions */}
-          <div className="flex items-center justify-between pb-3">
-            <div className="flex-1 mr-3">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200 w-full text-sm"
+      {isDropdownOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-10"
+            onClick={() => setIsDropdownOpen(false)}
+          />
+          <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 z-20">
+            <div className="p-4 border-b border-gray-100">
+              <div className="flex items-center space-x-3">
+                <img
+                  src={user.picture}
+                  alt={user.name}
+                  className="h-12 w-12 rounded-full border-2 border-yellow-400"
                 />
+                <div>
+                  <p className="font-semibold text-gray-900">{user.name}</p>
+                  <p className="text-sm text-gray-600">{user.email}</p>
+                </div>
               </div>
             </div>
-            
-            <div className="flex items-center space-x-2">
-              {user && onSync && (
-                <div className="scale-90">
-                  <SyncStatus onSync={onSync} lastSyncTime={lastSyncTime} />
-                </div>
-              )}
-              
-              <button
-                onClick={onAddEvent}
-                className="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 p-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
-              >
-                <Plus className="h-5 w-5" />
+
+            <div className="p-2">
+              <button className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-gray-50 rounded-lg transition-colors duration-200">
+                <User className="h-4 w-4 text-gray-600" />
+                <span className="text-sm text-gray-700">Profile Settings</span>
               </button>
               
-              {user && onSignOut && (
-                <UserProfile user={user} onSignOut={onSignOut} />
-              )}
+              <button className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-gray-50 rounded-lg transition-colors duration-200">
+                <Calendar className="h-4 w-4 text-gray-600" />
+                <span className="text-sm text-gray-700">Calendar Settings</span>
+              </button>
+              
+              <button className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-gray-50 rounded-lg transition-colors duration-200">
+                <Settings className="h-4 w-4 text-gray-600" />
+                <span className="text-sm text-gray-700">Preferences</span>
+              </button>
+              
+              <hr className="my-2" />
+              
+              <button
+                onClick={onSignOut}
+                className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-red-50 rounded-lg transition-colors duration-200 text-red-600"
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="text-sm">Sign Out</span>
+              </button>
             </div>
           </div>
-          
-          {/* Mobile Filter */}
-          <div className="pb-3">
-            <select
-              value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value as 'all' | 'iec' | 'internal')}
-              className="w-full appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200 text-sm"
-            >
-              <option value="all">All Categories</option>
-              <option value="iec">Independent Electoral Commission</option>
-              <option value="internal">Internal Party Activity</option>
-            </select>
-          </div>
-          
-          {/* Mobile View Mode Toggles */}
-          <div className="flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
-            {(['day', 'week', 'month'] as ViewMode[]).map((mode) => (
-              <button
-                key={mode}
-                onClick={() => setViewMode(mode)}
-                className={`flex-1 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  viewMode === mode
-                    ? 'bg-yellow-400 text-yellow-900 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
-                }`}
-              >
-                {mode.charAt(0).toUpperCase() + mode.slice(1)}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </header>
+        </>
+      )}
+    </div>
   );
 };
