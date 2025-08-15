@@ -140,7 +140,7 @@ export const useCalendar = () => {
   }, [updateState]);
 
   const setFilterCategory = useCallback((category: 'all' | 'personal' | 'work') => {
-    updateState({ filterCategory: category });
+    updateState({ filterCategory: category as 'all' | 'iec' | 'internal' });
   }, [updateState]);
 
   const openEventForm = useCallback((event?: CalendarEvent) => {
