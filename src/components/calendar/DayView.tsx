@@ -19,8 +19,19 @@ export const DayView: React.FC<DayViewProps> = ({
   onEventClick
 }) => {
   const dayEvents = events.filter(event => 
-    isSameDay(event.startDate, selectedDate) || 
-    (selectedDate >= event.startDate && selectedDate <= event.endDate)
+    {
+      const eventStart = new Date(event.startDate);
+      const eventEnd = new Date(event.endDate);
+      const currentDate = new Date(selectedDate);
+      
+      // Reset time to compare only dates
+      eventStart.setHours(0, 0, 0, 0);
+      eventEnd.setHours(0, 0, 0, 0);
+      currentDate.setHours(0, 0, 0, 0);
+      
+      // Check if the current date falls within the event's date range
+      return currentDate >= eventStart && currentDate <= eventEnd;
+    }
   );
 
   const isToday = isSameDay(selectedDate, new Date());

@@ -24,10 +24,19 @@ export const WeekView: React.FC<WeekViewProps> = ({
   const weekDayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   const getEventsForDate = (date: Date) => {
-    return events.filter(event => 
-      isSameDay(event.startDate, date) || 
-      (date >= event.startDate && date <= event.endDate)
-    );
+    return events.filter(event => {
+      const eventStart = new Date(event.startDate);
+      const eventEnd = new Date(event.endDate);
+      const currentDate = new Date(date);
+      
+      // Reset time to compare only dates
+      eventStart.setHours(0, 0, 0, 0);
+      eventEnd.setHours(0, 0, 0, 0);
+      currentDate.setHours(0, 0, 0, 0);
+      
+      // Check if the current date falls within the event's date range
+      return currentDate >= eventStart && currentDate <= eventEnd;
+    });
   };
 
   return (
