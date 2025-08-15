@@ -44,35 +44,35 @@ export const EventModal: React.FC<EventModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-xl">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 md:p-4 z-50">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[95vh] md:max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white border-b border-gray-200 px-4 md:px-6 py-3 md:py-4 rounded-t-xl">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-gray-900">Activity Details</h2>
+            <h2 className="text-lg md:text-xl font-bold text-gray-900">Activity Details</h2>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+              className="p-1 md:p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
             >
               <X className="h-5 w-5 text-gray-500" />
             </button>
           </div>
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="p-4 md:p-6 space-y-4 md:space-y-6">
           {/* Activity Description */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3 leading-relaxed">
+            <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-2 md:mb-3 leading-relaxed">
               {event.description}
             </h3>
           </div>
 
           {/* Date and Time */}
-          <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+          <div className="bg-gray-50 rounded-lg p-3 md:p-4 space-y-2 md:space-y-3">
             <div className="flex items-center text-gray-700">
               <Calendar className="h-5 w-5 mr-3 text-gray-500" />
               <div>
-                <div className="font-medium">Date</div>
-                <div className="text-sm">
+                <div className="font-medium text-sm md:text-base">Date</div>
+                <div className="text-xs md:text-sm">
                   {formatDate(event.startDate)}
                   {event.startDate.toDateString() !== event.endDate.toDateString() && (
                     <> - {formatDate(event.endDate)}</>
@@ -84,8 +84,8 @@ export const EventModal: React.FC<EventModalProps> = ({
             <div className="flex items-center text-gray-700">
               <Clock className="h-5 w-5 mr-3 text-gray-500" />
               <div>
-                <div className="font-medium">Time</div>
-                <div className="text-sm">
+                <div className="font-medium text-sm md:text-base">Time</div>
+                <div className="text-xs md:text-sm">
                   {formatTime(event.startDate)} - {formatTime(event.endDate)}
                 </div>
               </div>
@@ -93,17 +93,17 @@ export const EventModal: React.FC<EventModalProps> = ({
           </div>
 
           {/* Category and Priority */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2 md:gap-3">
             <div className="flex items-center">
               <Tag className="h-4 w-4 mr-2 text-gray-500" />
-              <span className={`px-3 py-1 rounded-full text-sm font-medium border ${categoryColors[event.category]}`}>
+              <span className={`px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-medium border ${categoryColors[event.category]}`}>
                 {event.category === 'iec' ? 'Independent Electoral Commission' : 'Internal Party Activity'}
               </span>
             </div>
 
             <div className="flex items-center">
               <Flag className="h-4 w-4 mr-2 text-gray-500" />
-              <span className={`px-3 py-1 rounded-full text-sm font-medium border ${priorityColors[event.priority]}`}>
+              <span className={`px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-medium border ${priorityColors[event.priority]}`}>
                 {event.priority.charAt(0).toUpperCase() + event.priority.slice(1)} Priority
               </span>
             </div>
@@ -112,14 +112,14 @@ export const EventModal: React.FC<EventModalProps> = ({
           {/* Reminders */}
           {event.reminders.length > 0 && (
             <div>
-              <div className="flex items-center mb-3">
+              <div className="flex items-center mb-2 md:mb-3">
                 <Bell className="h-4 w-4 mr-2 text-gray-500" />
-                <span className="font-medium text-gray-700">Reminders</span>
+                <span className="font-medium text-gray-700 text-sm md:text-base">Reminders</span>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-1 md:space-y-2 max-h-32 md:max-h-none overflow-y-auto">
                 {event.reminders.filter(r => r.enabled).map(reminder => (
-                  <div key={reminder.id} className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                    <div className="text-sm text-yellow-800">
+                  <div key={reminder.id} className="bg-yellow-50 border border-yellow-200 rounded-lg p-2 md:p-3">
+                    <div className="text-xs md:text-sm text-yellow-800">
                       {reminder.type === '1month' && '1 month before'}
                       {reminder.type === '3weeks' && '3 weeks before'}
                       {reminder.type === '2weeks' && '2 weeks before'}
@@ -136,22 +136,22 @@ export const EventModal: React.FC<EventModalProps> = ({
           )}
 
           {/* Created/Updated Info */}
-          <div className="text-xs text-gray-500 pt-4 border-t border-gray-100">
+          <div className="text-xs text-gray-500 pt-3 md:pt-4 border-t border-gray-100">
             <div>Created: {event.createdAt.toLocaleString()}</div>
             <div>Updated: {event.updatedAt.toLocaleString()}</div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex space-x-3 pt-4">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 pt-3 md:pt-4">
             <button
               onClick={handleEdit}
-              className="flex-1 px-4 py-3 bg-yellow-400 hover:bg-yellow-500 text-yellow-900 rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+              className="flex-1 px-3 md:px-4 py-2 md:py-3 bg-yellow-400 hover:bg-yellow-500 text-yellow-900 rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md text-sm md:text-base"
             >
               Edit Activity
             </button>
             <button
               onClick={handleDelete}
-              className="flex-1 px-4 py-3 border border-red-300 text-red-700 rounded-lg hover:bg-red-50 font-medium transition-all duration-200"
+              className="flex-1 px-3 md:px-4 py-2 md:py-3 border border-red-300 text-red-700 rounded-lg hover:bg-red-50 font-medium transition-all duration-200 text-sm md:text-base"
             >
               Delete Activity
             </button>

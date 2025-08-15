@@ -56,33 +56,33 @@ export const DayView: React.FC<DayViewProps> = ({
   return (
     <>
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-      <div className="bg-gray-50 border-b border-gray-200 p-6">
+      <div className="bg-gray-50 border-b border-gray-200 p-4 md:p-6">
         <div className="text-center">
-          <div className="text-sm font-medium text-gray-500 mb-1">{dayName}</div>
+          <div className="text-xs md:text-sm font-medium text-gray-500 mb-1">{dayName}</div>
           <div
-            className={`text-3xl font-bold ${
+            className={`text-2xl md:text-3xl font-bold ${
               isToday ? 'text-yellow-600' : 'text-gray-900'
             }`}
           >
             {selectedDate.getDate()}
           </div>
-          <div className="text-sm text-gray-600 mt-1">
+          <div className="text-xs md:text-sm text-gray-600 mt-1">
             {formatDate(selectedDate)}
           </div>
         </div>
       </div>
 
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         {dayEvents.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-gray-400 text-lg mb-2">No events scheduled</div>
-            <div className="text-gray-500 text-sm">
+          <div className="text-center py-8 md:py-12">
+            <div className="text-gray-400 text-base md:text-lg mb-2">No events scheduled</div>
+            <div className="text-gray-500 text-sm md:text-base">
               Click "Add Event" to create your first event for this day
             </div>
           </div>
         ) : (
-          <div className="space-y-4">
-            <div className="text-lg font-semibold text-gray-900 mb-4">
+          <div className="space-y-3 md:space-y-4">
+            <div className="text-base md:text-lg font-semibold text-gray-900 mb-3 md:mb-4">
               {dayEvents.length} event{dayEvents.length > 1 ? 's' : ''} scheduled
             </div>
             {dayEvents.map(event => (

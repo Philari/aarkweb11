@@ -58,7 +58,7 @@ export const WeekView: React.FC<WeekViewProps> = ({
   return (
     <>
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-7 divide-y lg:divide-y-0 lg:divide-x divide-gray-200">
+      <div className="grid grid-cols-1 md:grid-cols-7 divide-y md:divide-y-0 md:divide-x divide-gray-200">
         {weekDays.map((day, index) => {
           const dayEvents = getEventsForDate(day);
           const isToday = isSameDay(day, new Date());
@@ -68,16 +68,16 @@ export const WeekView: React.FC<WeekViewProps> = ({
             <div
               key={day.toISOString()}
               onClick={() => onDateSelect(day)}
-              className="min-h-96 p-4 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
+              className="min-h-48 md:min-h-96 p-2 md:p-4 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
             >
-              <div className="text-center mb-4">
-                <div className="text-sm font-medium text-gray-500 mb-1">
+              <div className="text-center mb-2 md:mb-4">
+                <div className="text-xs md:text-sm font-medium text-gray-500 mb-1">
                   {weekDayNames[index]}
                 </div>
                 <div
-                  className={`text-lg font-semibold ${
+                  className={`text-base md:text-lg font-semibold ${
                     isToday
-                      ? 'bg-yellow-400 text-yellow-900 h-8 w-8 rounded-full flex items-center justify-center mx-auto'
+                      ? 'bg-yellow-400 text-yellow-900 h-6 w-6 md:h-8 md:w-8 rounded-full flex items-center justify-center mx-auto text-sm md:text-base'
                       : isSelected
                       ? 'text-yellow-600'
                       : 'text-gray-900'
@@ -87,7 +87,7 @@ export const WeekView: React.FC<WeekViewProps> = ({
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1 md:space-y-2">
                 {dayEvents.map(event => (
                   <EventCard
                     key={event.id}

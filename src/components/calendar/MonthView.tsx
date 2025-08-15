@@ -78,7 +78,7 @@ export const MonthView: React.FC<MonthViewProps> = ({
       {/* Week day headers */}
       <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-200">
         {weekDays.map(day => (
-          <div key={day} className="p-4 text-center text-sm font-medium text-gray-700">
+          <div key={day} className="p-2 md:p-4 text-center text-xs md:text-sm font-medium text-gray-700">
             {day}
           </div>
         ))}
@@ -88,7 +88,7 @@ export const MonthView: React.FC<MonthViewProps> = ({
       <div className="grid grid-cols-7">
         {calendarDays.map((day, index) => {
           if (!day) {
-            return <div key={index} className="h-32 border-r border-b border-gray-100"></div>;
+            return <div key={index} className="h-20 md:h-32 border-r border-b border-gray-100"></div>;
           }
 
           const dayEvents = getEventsForDate(day);
@@ -100,15 +100,15 @@ export const MonthView: React.FC<MonthViewProps> = ({
             <div
               key={day.toISOString()}
               onClick={() => onDateSelect(day)}
-              className={`h-32 border-r border-b border-gray-100 p-2 cursor-pointer hover:bg-gray-50 transition-colors duration-200 ${
+              className={`h-20 md:h-32 border-r border-b border-gray-100 p-1 md:p-2 cursor-pointer hover:bg-gray-50 transition-colors duration-200 ${
                 !isCurrentMonth ? 'bg-gray-25 text-gray-400' : ''
               }`}
             >
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-1 md:mb-2">
                 <span
-                  className={`text-sm font-medium ${
+                  className={`text-xs md:text-sm font-medium ${
                     isToday
-                      ? 'bg-yellow-400 text-yellow-900 h-6 w-6 rounded-full flex items-center justify-center'
+                      ? 'bg-yellow-400 text-yellow-900 h-5 w-5 md:h-6 md:w-6 rounded-full flex items-center justify-center text-xs md:text-sm'
                       : isSelected
                       ? 'text-yellow-600'
                       : isCurrentMonth
@@ -121,7 +121,7 @@ export const MonthView: React.FC<MonthViewProps> = ({
               </div>
 
               <div className="space-y-1 overflow-hidden">
-                {dayEvents.slice(0, 1).map(event => (
+                {dayEvents.slice(0, window.innerWidth < 768 ? 1 : 2).map(event => (
                   <EventCard
                     key={event.id}
                     event={event}
@@ -131,9 +131,9 @@ export const MonthView: React.FC<MonthViewProps> = ({
                     compact
                   />
                 ))}
-                {dayEvents.length > 1 && (
-                  <div className="text-xs text-gray-500 px-2">
-                    +{dayEvents.length - 1} more
+                {dayEvents.length > (window.innerWidth < 768 ? 1 : 2) && (
+                  <div className="text-xs text-gray-500 px-1 md:px-2">
+                    +{dayEvents.length - (window.innerWidth < 768 ? 1 : 2)} more
                   </div>
                 )}
               </div>
