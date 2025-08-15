@@ -1,7 +1,9 @@
 import React from 'react';
+import { useState } from 'react';
 import { Clock, MapPin, Edit, Trash2, Flag } from 'lucide-react';
 import { CalendarEvent } from '../types/calendar';
 import { formatTime, formatDate } from '../utils/dateUtils';
+import { EventTooltip } from './EventTooltip';
 
 interface EventCardProps {
   event: CalendarEvent;
@@ -9,6 +11,7 @@ interface EventCardProps {
   onDelete: (eventId: string) => void;
   onClick?: (event: CalendarEvent) => void;
   compact?: boolean;
+  showTooltip?: boolean;
 }
 
 export const EventCard: React.FC<EventCardProps> = ({
@@ -16,8 +19,12 @@ export const EventCard: React.FC<EventCardProps> = ({
   onEdit,
   onDelete,
   onClick,
-  compact = false
+  compact = false,
+  showTooltip = true
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
   const priorityColors = {
     low: 'bg-green-100 text-green-800 border-green-200',
     medium: 'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -27,6 +34,23 @@ export const EventCard: React.FC<EventCardProps> = ({
   const categoryColors = {
     iec: 'bg-blue-100 text-blue-800',
     internal: 'bg-purple-100 text-purple-800'
+  };
+
+  const handleMouseEnter = (e: React.MouseEvent) => {
+    if (showTooltip) {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+      setIsHovered(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (showTooltip && isHovered) {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    }
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -52,8 +76,14 @@ export const EventCard: React.FC<EventCardProps> = ({
     return (
       <div
         onClick={handleClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onMouseMove={handleMouseMove}
         className="bg-yellow-50 border-l-4 border-yellow-400 p-2 rounded-r-lg cursor-pointer hover:bg-yellow-100 transition-colors duration-200 group"
       >
+        {isHovered && showTooltip && (
+          <EventTooltip event={event} position={mousePosition} />
+        )}
         <div className="flex items-center justify-between">
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate">{event.description}</p>
@@ -83,9 +113,15 @@ export const EventCard: React.FC<EventCardProps> = ({
   return (
     <div
       onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
       className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group"
       style={{ borderLeftColor: event.color, borderLeftWidth: '4px' }}
     >
+      {isHovered && showTooltip && (
+        <EventTooltip event={event} position={mousePosition} />
+      )}
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <h3 className="font-semibold text-gray-900 text-lg mb-2">{event.title}</h3>

@@ -1,7 +1,9 @@
 import React from 'react';
+import { useState } from 'react';
 import { CalendarEvent } from '../../types/calendar';
 import { getWeekDays, isSameDay, formatDate } from '../../utils/dateUtils';
 import { EventCard } from '../EventCard';
+import { EventModal } from '../EventModal';
 
 interface WeekViewProps {
   selectedDate: Date;
@@ -20,6 +22,9 @@ export const WeekView: React.FC<WeekViewProps> = ({
   onEventDelete,
   onEventClick
 }) => {
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const weekDays = getWeekDays(selectedDate);
   const weekDayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -39,8 +44,20 @@ export const WeekView: React.FC<WeekViewProps> = ({
     });
   };
 
+  const handleEventClick = (event: CalendarEvent) => {
+    setSelectedEvent(event);
+    setIsModalOpen(true);
+    onEventClick(event);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedEvent(null);
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+    <>
+      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-7 divide-y lg:divide-y-0 lg:divide-x divide-gray-200">
         {weekDays.map((day, index) => {
           const dayEvents = getEventsForDate(day);
@@ -77,7 +94,7 @@ export const WeekView: React.FC<WeekViewProps> = ({
                     event={event}
                     onEdit={onEventEdit}
                     onDelete={onEventDelete}
-                    onClick={onEventClick}
+                    onClick={handleEventClick}
                     compact
                   />
                 ))}
@@ -86,6 +103,17 @@ export const WeekView: React.FC<WeekViewProps> = ({
           );
         })}
       </div>
-    </div>
+      </div>
+
+      {selectedEvent && (
+        <EventModal
+          event={selectedEvent}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onEdit={onEventEdit}
+          onDelete={onEventDelete}
+        />
+      )}
+    </>
   );
 };

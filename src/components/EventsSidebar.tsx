@@ -1,6 +1,8 @@
 import React from 'react';
+import { useState } from 'react';
 import { CalendarEvent } from '../types/calendar';
 import { EventCard } from './EventCard';
+import { EventModal } from './EventModal';
 import { Calendar, Filter } from 'lucide-react';
 
 interface EventsSidebarProps {
@@ -20,6 +22,9 @@ export const EventsSidebar: React.FC<EventsSidebarProps> = ({
   onEventDelete,
   onEventClick
 }) => {
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const filteredEvents = events.filter(event => {
     const matchesSearch = searchQuery === '' || 
       event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -35,8 +40,20 @@ export const EventsSidebar: React.FC<EventsSidebarProps> = ({
     .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())
     .slice(0, 10);
 
+  const handleEventClick = (event: CalendarEvent) => {
+    setSelectedEvent(event);
+    setIsModalOpen(true);
+    onEventClick(event);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedEvent(null);
+  };
+
   return (
-    <div className="w-80 bg-gray-50 border-l border-gray-200 h-full overflow-y-auto">
+    <>
+      <div className="w-80 bg-gray-50 border-l border-gray-200 h-full overflow-y-auto">
       <div className="p-6 border-b border-gray-200 bg-white">
         <div className="flex items-center space-x-2 mb-4">
           <Calendar className="h-5 w-5 text-yellow-600" />
@@ -78,12 +95,23 @@ export const EventsSidebar: React.FC<EventsSidebarProps> = ({
                 event={event}
                 onEdit={onEventEdit}
                 onDelete={onEventDelete}
-                onClick={onEventClick}
+                onClick={handleEventClick}
               />
             ))}
           </div>
         )}
       </div>
-    </div>
+      </div>
+
+      {selectedEvent && (
+        <EventModal
+          event={selectedEvent}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onEdit={onEventEdit}
+          onDelete={onEventDelete}
+        />
+      )}
+    </>
   );
 };

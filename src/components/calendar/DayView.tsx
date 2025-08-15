@@ -1,7 +1,9 @@
 import React from 'react';
+import { useState } from 'react';
 import { CalendarEvent } from '../../types/calendar';
 import { isSameDay, formatDate } from '../../utils/dateUtils';
 import { EventCard } from '../EventCard';
+import { EventModal } from '../EventModal';
 
 interface DayViewProps {
   selectedDate: Date;
@@ -18,6 +20,9 @@ export const DayView: React.FC<DayViewProps> = ({
   onEventDelete,
   onEventClick
 }) => {
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const dayEvents = events.filter(event => 
     {
       const eventStart = new Date(event.startDate);
@@ -37,8 +42,20 @@ export const DayView: React.FC<DayViewProps> = ({
   const isToday = isSameDay(selectedDate, new Date());
   const dayName = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
 
+  const handleEventClick = (event: CalendarEvent) => {
+    setSelectedEvent(event);
+    setIsModalOpen(true);
+    onEventClick(event);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedEvent(null);
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+    <>
+      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       <div className="bg-gray-50 border-b border-gray-200 p-6">
         <div className="text-center">
           <div className="text-sm font-medium text-gray-500 mb-1">{dayName}</div>
@@ -74,12 +91,23 @@ export const DayView: React.FC<DayViewProps> = ({
                 event={event}
                 onEdit={onEventEdit}
                 onDelete={onEventDelete}
-                onClick={onEventClick}
+                onClick={handleEventClick}
               />
             ))}
           </div>
         )}
       </div>
-    </div>
+      </div>
+
+      {selectedEvent && (
+        <EventModal
+          event={selectedEvent}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onEdit={onEventEdit}
+          onDelete={onEventDelete}
+        />
+      )}
+    </>
   );
 };
