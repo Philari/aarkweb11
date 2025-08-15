@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { CalendarEvent, CalendarState, ViewMode } from '../types/calendar';
 import { googleCalendarService } from '../services/googleCalendar';
 import { googleAuthService } from '../services/googleAuth';
+import { electoralActivities } from '../utils/electoralActivities';
 
 const STORAGE_KEY = 'calendar-events';
 const SYNC_KEY = 'last-sync-time';
@@ -22,23 +23,52 @@ export const useCalendar = () => {
 
   // Load events from localStorage on mount
   useEffect(() => {
-    // Clear any existing events and start fresh
-    localStorage.removeItem(STORAGE_KEY);
-    setState(prev => ({ ...prev, events: [] }));
+    // Convert electoral activities to calendar events
+    const convertedEvents: CalendarEvent[] = electoralActivities.map(activity => ({
+      id: activity.id,
+      title: activity.title,
+      description: activity.description,
+      startDate: activity.startDate,
+      endDate: activity.endDate,
+      category: activity.category,
+      priority: activity.priority,
+      color: activity.color,
+      reminders: [
+        {
+          id: crypto.randomUUID(),
+          type: '1day',
+          minutesBefore: 1440,
+          enabled: true,
+        },
+      ],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
     
     const savedEvents = localStorage.getItem(STORAGE_KEY);
     if (savedEvents) {
-      const events = JSON.parse(savedEvents).map((event: any) => ({
+      const parsedEvents = JSON.parse(savedEvents).map((event: any) => ({
         ...event,
         startDate: new Date(event.startDate),
         endDate: new Date(event.endDate),
         createdAt: new Date(event.createdAt),
         updatedAt: new Date(event.updatedAt)
       }));
-      setState(prev => ({ ...prev, events }));
+      
+      // Merge electoral activities with saved events, avoiding duplicates
+      const mergedEvents = [...convertedEvents];
+      parsedEvents.forEach((savedEvent: CalendarEvent) => {
+        if (!mergedEvents.find(e => e.id === savedEvent.id)) {
+          mergedEvents.push(savedEvent);
+        }
+      });
+      
+      setState(prev => ({ ...prev, events: mergedEvents }));
+      saveEvents(mergedEvents);
     } else {
-      // Always start with completely empty events array
-      setState(prev => ({ ...prev, events: [] }));
+      // Start with electoral activities
+      setState(prev => ({ ...prev, events: convertedEvents }));
+      saveEvents(convertedEvents);
     }
     
     // Load last sync time
@@ -46,7 +76,7 @@ export const useCalendar = () => {
     if (savedSyncTime) {
       setLastSyncTime(new Date(savedSyncTime));
     }
-  }, []);
+  }, [saveEvents]);
 
   // Save events to localStorage whenever events change
   const saveEvents = useCallback((events: CalendarEvent[]) => {
