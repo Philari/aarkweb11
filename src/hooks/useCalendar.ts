@@ -34,10 +34,8 @@ export const useCalendar = () => {
       }));
       setState(prev => ({ ...prev, events }));
     } else {
-      // Initialize with electoral data if no saved events
-      const electoralEvents = generateElectoralEvents();
-      setState(prev => ({ ...prev, events: electoralEvents }));
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(electoralEvents));
+      // Initialize with empty events array
+      setState(prev => ({ ...prev, events: [] }));
     }
     
     // Load last sync time
