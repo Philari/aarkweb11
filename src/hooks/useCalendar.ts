@@ -21,6 +21,11 @@ export const useCalendar = () => {
   
   const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null);
 
+  // Save events to localStorage whenever events change
+  const saveEvents = useCallback((events: CalendarEvent[]) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+  }, []);
+
   // Load events from localStorage on mount
   useEffect(() => {
     // Convert electoral activities to calendar events
@@ -77,11 +82,6 @@ export const useCalendar = () => {
       setLastSyncTime(new Date(savedSyncTime));
     }
   }, [saveEvents]);
-
-  // Save events to localStorage whenever events change
-  const saveEvents = useCallback((events: CalendarEvent[]) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-  }, []);
 
   const updateState = useCallback((updates: Partial<CalendarState>) => {
     setState(prev => ({ ...prev, ...updates }));
