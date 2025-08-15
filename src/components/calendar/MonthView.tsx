@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { CalendarEvent } from '../../types/calendar';
 import { getDaysInMonth, isSameDay, isSameMonth, formatDate } from '../../utils/dateUtils';
 import { EventCard } from '../EventCard';
