@@ -7,7 +7,7 @@ interface UserProfileProps {
   onSignOut: () => void;
 }
 
-export const UserProfile: React.FC<UserProfileProps> = ({
+export const Header: React.FC<UserProfileProps> = ({
   user,
   onSignOut
 }) => {
