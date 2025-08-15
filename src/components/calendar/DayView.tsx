@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import { useState } from 'react';
 import { CalendarEvent } from '../../types/calendar';
 import { isSameDay, formatDate } from '../../utils/dateUtils';
 import { EventCard } from '../EventCard';
