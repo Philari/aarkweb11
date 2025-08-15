@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import { useState } from 'react';
 import { CalendarEvent } from '../types/calendar';
 import { EventCard } from './EventCard';
 import { EventModal } from './EventModal';
