@@ -15,6 +15,7 @@ export const useAuth = () => {
   // Initialize Google Auth and load user from localStorage on mount
   useEffect(() => {
     const initializeAuth = async () => {
+      console.log('Starting auth initialization...');
       try {
         // Initialize Google Auth service first
         await googleAuthService.initialize();
@@ -24,9 +25,9 @@ export const useAuth = () => {
         setState(prev => ({ 
           ...prev, 
           isLoading: false, 
-          error: 'Failed to initialize authentication. Please refresh the page.' 
+          error: null // Don't show error immediately, allow demo mode
         }));
-        return;
+        // Continue to load saved user even if Google Auth fails
       }
 
       // Then load saved user
@@ -73,10 +74,13 @@ export const useAuth = () => {
       return user;
     } catch (error) {
       console.error('Sign in error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Authentication failed';
       setState(prev => ({
         ...prev,
         isLoading: false,
-        error: 'Authentication temporarily unavailable. Please try again.',
+        error: errorMessage.includes('timeout') 
+          ? 'Sign in timed out. Please try again.' 
+          : 'Authentication temporarily unavailable. Please try again.',
       }));
       throw error;
     }

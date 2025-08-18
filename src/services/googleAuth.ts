@@ -19,19 +19,21 @@ class GoogleAuthService {
   private gapi: any = null;
   private tokenClient: any = null;
   private isInitialized = false;
+  private initPromise: Promise<void> | null = null;
   private signInPromise: { resolve: (user: User) => void; reject: (error: Error) => void } | null = null;
 
   async initialize(): Promise<void> {
-    if (this.isInitialized) return;
+    if (this.isInitialized) return Promise.resolve();
+    if (this.initPromise) return this.initPromise;
     
     if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === 'your-google-client-id-here') {
       console.warn('Google Client ID not configured. Using demo mode.');
       // For demo purposes, we'll simulate authentication
       this.isInitialized = true;
-      return;
+      return Promise.resolve();
     }
 
-    return new Promise((resolve, reject) => {
+    this.initPromise = new Promise((resolve, reject) => {
       const script1 = document.createElement('script');
       script1.src = 'https://apis.google.com/js/api.js';
       script1.onload = () => {
@@ -53,6 +55,7 @@ class GoogleAuthService {
       script1.onerror = reject;
       document.head.appendChild(script1);
     });
+    return this.initPromise;
   }
 
   private async initializeGapi(): Promise<void> {
@@ -80,12 +83,12 @@ class GoogleAuthService {
       console.log('GSI callback received:', response);
       
       if (!this.signInPromise) return;
+        console.warn('No sign in promise found, ignoring callback');
       
       if (response.error) {
-        this.signInPromise.reject(new Error(response.error));
         console.error('GSI callback error:', response.error);
+        this.signInPromise.reject(new Error(response.error));
         this.signInPromise = null;
-        console.log('No sign in promise found');
         return;
       }
 
@@ -135,8 +138,13 @@ class GoogleAuthService {
 
   async signIn(): Promise<User> {
     if (!this.isInitialized) {
-      console.error('Google Auth service not initialized');
-      throw new Error('Google Auth service not initialized. Please wait for the app to load completely.');
+      console.log('Google Auth service not initialized, initializing now...');
+      try {
+        await this.initialize();
+      } catch (error) {
+        console.error('Failed to initialize Google Auth service:', error);
+        throw new Error('Google Auth service not initialized. Please wait for the app to load completely.');
+      }
     }
 
     // Demo mode - simulate successful login
@@ -154,25 +162,57 @@ class GoogleAuthService {
     console.log('Creating sign in promise...');
     return new Promise((resolve, reject) => {
       this.signInPromise = { resolve, reject };
+      
+      // Add timeout to prevent hanging
+      setTimeout(() => {
+        if (this.signInPromise) {
+          this.signInPromise.reject(new Error('Sign in timeout'));
+          this.signInPromise = null;
+        }
+      }, 30000); // 30 second timeout
+      
       console.log('Requesting access token...');
-      this.tokenClient.requestAccessToken({ prompt: 'consent' });
+      try {
+        this.tokenClient.requestAccessToken({ prompt: 'consent' });
+      } catch (error) {
+        console.error('Error requesting access token:', error);
+        this.signInPromise.reject(error as Error);
+        this.signInPromise = null;
+      }
     });
   }
 
   signOut(): void {
-    if (this.gapi?.client?.getToken()) {
-      window.google.accounts.oauth2.revoke(this.gapi.client.getToken().access_token);
-      this.gapi.client.setToken('');
+    try {
+      if (this.gapi?.client?.getToken()) {
+        const token = this.gapi.client.getToken();
+        if (token?.access_token && window.google?.accounts?.oauth2) {
+          window.google.accounts.oauth2.revoke(token.access_token);
+        }
+        this.gapi.client.setToken('');
+      }
+    } catch (error) {
+      console.error('Error during sign out:', error);
     }
   }
 
   isSignedIn(): boolean {
-    return this.gapi?.client?.getToken() != null;
+    try {
+      return this.gapi?.client?.getToken() != null;
+    } catch (error) {
+      console.error('Error checking sign in status:', error);
+      return false;
+    }
   }
 
   getAccessToken(): string | null {
-    const token = this.gapi?.client?.getToken();
-    return token?.access_token || null;
+    try {
+      const token = this.gapi?.client?.getToken();
+      return token?.access_token || null;
+    } catch (error) {
+      console.error('Error getting access token:', error);
+      return null;
+    }
   }
 }
 
