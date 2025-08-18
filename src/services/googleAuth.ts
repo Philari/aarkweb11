@@ -82,8 +82,10 @@ class GoogleAuthService {
     const callback = async (response: any) => {
       console.log('GSI callback received:', response);
       
-      if (!this.signInPromise) return;
+      if (!this.signInPromise) {
         console.warn('No sign in promise found, ignoring callback');
+        return;
+      }
       
       if (response.error) {
         console.error('GSI callback error:', response.error);

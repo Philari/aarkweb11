@@ -12,6 +12,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   isLoading,
   error
 }) => {
+  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-white to-yellow-100 flex items-center justify-center p-3 md:p-4">
       <div className="max-w-md w-full">
